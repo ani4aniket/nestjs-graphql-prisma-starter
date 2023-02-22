@@ -6,8 +6,7 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
-import { DogModule } from './dog/dog.module';
-import { OwnerModule } from './owner/owner.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -15,15 +14,14 @@ import { OwnerModule } from './owner/owner.module';
       driver: ApolloDriver,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      typePaths: ['./**/*.graphql'],
+      autoSchemaFile: join(process.cwd(), 'src/graphql/schema.graphql'),
       definitions: {
         path: join(process.cwd(), 'src/types/graphql.ts'),
         outputAs: 'class',
       },
     }),
     PrismaModule,
-    DogModule,
-    OwnerModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,49 +7,43 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export class CreateDogInput {
-    name: string;
-    ownerId?: Nullable<number>;
+export enum Role {
+    USER = "USER",
+    ADMIN = "ADMIN"
 }
 
-export class UpdateDogInput {
+export class CreateUserInput {
+    email: string;
+    name?: Nullable<string>;
+    role: Role;
+}
+
+export class UpdateUserInput {
+    email?: Nullable<string>;
+    name?: Nullable<string>;
+    role?: Nullable<Role>;
     id: number;
-    name: string;
 }
 
-export class CreateOwnerInput {
-    name: string;
-}
-
-export class Dog {
+export class User {
     id: number;
-    name: string;
+    createdAt: DateTime;
+    email: string;
+    name?: Nullable<string>;
+    role: Role;
 }
 
 export abstract class IQuery {
-    abstract dogs(): Nullable<Dog>[] | Promise<Nullable<Dog>[]>;
-
-    abstract dog(id: number): Nullable<Dog> | Promise<Nullable<Dog>>;
-
-    abstract owner(id: number): Nullable<Owner> | Promise<Nullable<Owner>>;
+    abstract user(id: number): User | Promise<User>;
 }
 
 export abstract class IMutation {
-    abstract createDog(createDogInput: CreateDogInput): Dog | Promise<Dog>;
+    abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
 
-    abstract updateDog(updateDogInput: UpdateDogInput): Dog | Promise<Dog>;
+    abstract updateUser(updateUserInput: UpdateUserInput): User | Promise<User>;
 
-    abstract removeDog(id: number): Nullable<Dog> | Promise<Nullable<Dog>>;
-
-    abstract createOwner(createOwnerInput: CreateOwnerInput): Owner | Promise<Owner>;
-
-    abstract removeOwner(id: number): Nullable<Owner> | Promise<Nullable<Owner>>;
+    abstract removeUser(id: number): User | Promise<User>;
 }
 
-export class Owner {
-    id: number;
-    name: string;
-    dogs: Dog[];
-}
-
+export type DateTime = any;
 type Nullable<T> = T | null;
